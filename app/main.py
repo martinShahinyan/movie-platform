@@ -28,8 +28,11 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Ensure tables exist on startup (especially for SQLite / PostgreSQL out of the box)
-    Base.metadata.create_all(bind=engine)
+    # Ensure tables exist on startup (safely handled if already created by another worker)
+    try:
+        Base.metadata.create_all(bind=engine, checkfirst=True)
+    except Exception as e:
+        log.warning("Table creation skipped or already exists: %s", e)
     try:
         from app.database import SessionLocal
         from scripts.seed import seed_reference_data, seed_starter_movies
