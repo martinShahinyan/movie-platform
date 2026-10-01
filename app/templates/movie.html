@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Movie",
+  "name": "{{ movie.title }}",
+  "datePublished": "{{ movie.release_date or '' }}",
+  "description": "{{ (movie.overview or '')|e }}",
+  {% if movie.poster_path %}"image": "{{ movie.poster_path|img('w500') }}",{% endif %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ movie.vote_average }}",
+    "bestRating": "10",
+    "worstRating": "1",
+    "ratingCount": "{{ movie.vote_count or 1 }}"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<article class="movie" data-movie-id="{{ movie.id }}">
+  <header class="movie-hero">
+    {% if movie.backdrop_path %}
+      <img class="movie-hero__backdrop" src="{{ movie.backdrop_path|img('w1280') }}" alt="" fetchpriority="high">
+    {% endif %}
+    <div class="movie-hero__shade"></div>
+    <div class="container movie-hero__grid">
+      <div class="movie-hero__poster">
+        {% if movie.poster_path %}
+          <img src="{{ movie.poster_path|img('w500') }}" srcset="{{ movie.poster_path|srcset }}"
+               sizes="(max-width: 760px) 60vw, 300px" width="500" height="750" alt="{{ movie.title }} poster" fetchpriority="high">
+        {% else %}<span class="card__fallback">{{ movie.title }}</span>{% endif %}
+      </div>
+      <div class="movie-hero__info">
+        <h1 class="movie-title">{{ movie.title }}</h1>
+        {% if movie.original_title and movie.original_title != movie.title %}<p class="muted">{{ movie.original_title }}</p>{% endif %}
+        <p class="facts facts--lg">
+          {% if movie.year %}<a href="/year/{{ movie.year }}">{{ movie.year }}</a>{% endif %}
+          {% if movie.runtime %}<span>{{ movie.runtime|runtime }}</span>{% endif %}
+          <span class="score" id="community-rating-display">★ {{ movie.vote_average|rating }}<small id="community-vote-count"> ({{ '{:,}'.format(movie.vote_count) }} ratings)</small></span>
+        </p>
+        {% if movie.genres %}
+          <ul class="chips" aria-label="Genres">{% for g in movie.genres %}<li><a class="chip" href="/genre/{{ g.slug }}">{{ g.name }}</a></li>{% endfor %}</ul>
+        {% endif %}
+
+        {% if movie.overview %}<p class="overview">{{ movie.overview }}</p>{% endif %}
+
+        <div class="movie-actions">
+          <a href="#rate-section" class="btn btn--primary">★ Rate</a>
+          <button type="button" class="btn btn--secondary" id="open-log-modal">+ Log</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% if movie.moods %}
+  <section class="section">
+    <div class="container container--narrow">
+      <h2>This movie feels like...</h2>
+      <ul class="chips chips--lg">{% for t in movie.moods %}<li><a class="chip" href="/mood/{{ t.slug }}">{{ t.name }}</a></li>{% endfor %}</ul>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Rating Section -->
+  <section class="section section--tight" id="rate-section">
+    <div class="container container--narrow">
+      <div class="rating-box">
+        <h3>How would you rate this movie?</h3>
+        <div class="rating-bar" id="movie-rating-bar">
+          {% for v in range(1, 11) %}
+            <button type="button" class="rate-num-btn{% if user_rating == v %} is-selected{% endif %}" data-value="{{ v }}">{{ v }}</button>
+          {% endfor %}
+        </div>
+        <p class="user-rating-feedback" id="user-rating-status">
+          {% if user_rating %}
+            Your rating: <strong>{{ user_rating }}/10</strong> <small>(Click a number to update)</small>
+          {% else %}
+            Select a rating from 1 to 10. No account needed.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logs Section -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="section__head">
+        <h2>Recent logs</h2>
+        <button type="button" class="btn btn--sm btn--secondary" id="open-log-modal-2">+ Add log</button>
+      </div>
+      <div id="logs-container">
+        {% if logs %}
+          {% for log in logs %}
+            {% include "partials/log_card.html" %}
+          {% endfor %}
+        {% else %}
+          <p class="empty" id="no-logs-msg">No logs yet for {{ movie.title }}. Be the first to share your thoughts!</p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</article>
+
+{% include "partials/modal_log.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/rating.js') }}" defer></script>
+<script src="{{ url_for('static', path='js/logs.js') }}" defer></script>
+{% endblock %}

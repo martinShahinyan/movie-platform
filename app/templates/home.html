@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="container hero__inner">
+    <h1 class="hero__title">What do you want to watch tonight?</h1>
+    <p class="hero__lead">Find a movie that matches your mood. No account, no sign-up needed.</p>
+    {% include "partials/filters.html" %}
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head"><h2>Popular tonight</h2><a href="/movies">See all movies</a></div>
+    {% if popular %}
+      <div class="grid-cards">{% for m in popular %}{% with m=m %}{% include "partials/movie_card.html" %}{% endwith %}{% endfor %}</div>
+    {% else %}
+      <p class="empty">No movies loaded yet.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head"><h2>Browse by mood</h2><a href="/moods">All moods</a></div>
+    <div class="tiles">{% for label, slug in mood_tiles %}<a class="tile" href="/mood/{{ slug }}">{{ label }}</a>{% endfor %}</div>
+  </div>
+</section>
+
+{% if recent_logs %}
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head"><h2>Recently logged</h2><span class="muted">Anonymous viewer thoughts</span></div>
+    <div class="grid-logs">
+      {% for log in recent_logs %}
+        {% with log=log, show_movie=True %}
+          {% include "partials/log_card.html" %}
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="section__head"><h2>Browse by genre</h2><a href="/genres">All genres</a></div>
+    <ul class="chips chips--lg chips--flush">{% for g in genres %}<li><a class="chip" href="/genre/{{ g.slug }}">{{ g.name }}</a></li>{% endfor %}</ul>
+  </div>
+</section>
+
+<section class="section section--tight seo-section">
+  <div class="container container--narrow">
+    <h2>Discover films based on how you feel</h2>
+    <p>Finding a movie shouldn't mean scrolling endlessly through streaming catalogs. Moodreel is designed for film lovers who pick movies based on atmosphere, emotion, and setting. Whether you want something deeply melancholic for a quiet night, an atmospheric mind-bender, or a cozy comfort watch, filter by mood and discover your next favorite movie instantly — without creating an account.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/recommendations.js') }}" defer></script>
+{% endblock %}

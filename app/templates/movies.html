@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block head %}
+  {% if pg.page > 1 %}<link rel="prev" href="{{ page_url(pg.page - 1) }}">{% endif %}
+  {% if pg.page < pg.pages %}<link rel="next" href="{{ page_url(pg.page + 1) }}">{% endif %}
+{% endblock %}
+{% block content %}
+<section class="section section--first">
+  <div class="container">
+    <h1 class="page-title">{{ heading }}</h1>
+    <p class="muted">{{ pg.total }} {{ 'movie' if pg.total == 1 else 'movies' }}{% if filtered %} · <a href="/movies">Clear filters</a>{% endif %}</p>
+    {% if pg.items %}
+      <div class="grid-cards">{% for m in pg.items %}{% with m=m %}{% include "partials/movie_card.html" %}{% endwith %}{% endfor %}</div>
+      {% include "partials/pagination.html" %}
+    {% else %}
+      <p class="empty">Nothing matches these filters yet. <a href="/movies">Show all movies</a></p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

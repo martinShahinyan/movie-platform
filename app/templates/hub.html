@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section section--first">
+  <div class="container">
+    <h1 class="page-title">{{ h1 }}</h1>
+    <div class="hub">
+      {% for name, url, blurb, count in items %}
+        <a class="hub__item" href="{{ url }}">
+          <h2>{{ name }}</h2>
+          {% if blurb %}<p>{{ blurb }}</p>{% endif %}
+          <span class="muted">{{ count }} {{ 'movie' if count == 1 else 'movies' }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

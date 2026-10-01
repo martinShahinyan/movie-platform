@@ -1,0 +1,9 @@
+<header class="navbar">
+  <div class="container navbar__inner">
+    <a class="wordmark" href="/" aria-label="{{ site_name }} home">{{ site_name }}</a>
+    <nav class="navbar__links" aria-label="Main"><a href="/movies">Movies</a><a href="/genres">Genres</a><a href="/moods">Moods</a></nav>
+    {% if not hide_nav_search %}
+      {% with variant='nav', q=q|default('') %}{% include "partials/search_box.html" %}{% endwith %}
+    {% endif %}
+  </div>
+</header>

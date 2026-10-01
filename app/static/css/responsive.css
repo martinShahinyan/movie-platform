@@ -1,0 +1,25 @@
+@media (max-width: 900px) {
+  .grid-cards { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.75rem 1rem; }
+}
+@media (max-width: 760px) {
+  .movie-hero__grid { grid-template-columns: 1fr; align-items: start; }
+  .movie-hero__poster { width: min(60vw, 240px); }
+  .movie-hero__shade { background: linear-gradient(180deg, rgba(12, 13, 17, .55), var(--ink) 92%); }
+}
+@media (max-width: 640px) {
+  .grid-cards { grid-template-columns: repeat(2, 1fr); gap: 1.5rem .85rem; }
+  .navbar__inner { gap: .75rem; }
+  .navbar__links { display: none; }
+  .navbar .search { margin-left: auto; width: auto; flex: 1; max-width: 100%; }
+  .wordmark { font-size: 1.45rem; }
+  .pagination .btn { padding-inline: 1rem; }
+  .footer__tag { flex-basis: 100%; order: 3; }
+}
+
+@media (max-width: 640px) {
+  .finder__row { grid-template-columns: 1fr; }   /* filters stack vertically on phones */
+  .finder .btn { width: 100%; }
+  .tiles { grid-template-columns: 1fr 1fr; }
+  .tile { min-height: 90px; font-size: 1.25rem; }
+  .hub { grid-template-columns: 1fr; }
+}

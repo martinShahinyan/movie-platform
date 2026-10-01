@@ -1,0 +1,33 @@
+{# Find-my-movie form. params: sel (dict), moods, genres, FINDER (global) #}
+{% macro field(name, label, options, current) %}
+  <label class="field"><span>{{ label }}</span>
+    <select name="{{ name }}">{% for value, text in options %}<option value="{{ value }}"{% if value == current %} selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+  </label>
+{% endmacro %}
+{% macro pill(m) %}
+  <label class="pill"><input type="checkbox" name="mood" value="{{ m.slug }}"{% if m.slug in sel.moods %} checked{% endif %}><span>{{ m.name }}</span></label>
+{% endmacro %}
+
+<form class="finder" action="/find" method="get" data-finder>
+  <fieldset class="finder__moods">
+    <legend>I'm feeling... <small>(pick up to 3)</small></legend>
+    <div class="pills">{% for m in moods[:8] %}{{ pill(m) }}{% endfor %}</div>
+    {% if moods|length > 8 %}
+      {% set extra = moods[8:] %}
+      <details class="finder__more"{% if extra|selectattr('slug', 'in', sel.moods)|list %} open{% endif %}>
+        <summary>More moods</summary>
+        <div class="pills">{% for m in extra %}{{ pill(m) }}{% endfor %}</div>
+      </details>
+    {% endif %}
+  </fieldset>
+  <div class="finder__row">
+    <label class="field"><span>Genre</span>
+      <select name="genre"><option value="">Any genre</option>{% for g in genres %}<option value="{{ g.slug }}"{% if g.slug == sel.genre %} selected{% endif %}>{{ g.name }}</option>{% endfor %}</select>
+    </label>
+    {{ field("runtime", "Runtime", FINDER.runtime, sel.runtime) }}
+    {{ field("decade", "Year", FINDER.decade, sel.decade) }}
+    {{ field("rating", "Rating", FINDER.rating, sel.rating) }}
+    {{ field("language", "Language", FINDER.language, sel.language) }}
+  </div>
+  <button class="btn btn--primary btn--lg" type="submit">Find my movie</button>
+</form>

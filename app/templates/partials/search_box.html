@@ -1,0 +1,7 @@
+{# params: variant ('nav' | 'hero'), q (optional) #}
+<form class="search search--{{ variant }}" role="search" action="/search" method="get" data-search>
+  <input type="search" name="q" value="{{ q|default('') }}" placeholder="Search movies..."
+         aria-label="Search movies" maxlength="100" autocomplete="off"
+         role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="suggest-{{ variant }}">
+  <ul class="suggest" id="suggest-{{ variant }}" role="listbox" aria-label="Suggestions" hidden></ul>
+</form>

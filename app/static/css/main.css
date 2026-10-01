@@ -1,0 +1,43 @@
+:root {
+  --ink: #0c0d11;
+  --surface: #14161c;
+  --surface-2: #1b1e26;
+  --line: rgba(235, 232, 225, .09);
+  --text: #ebe8e1;
+  --muted: #8e8c96;
+  --lamp: #e9b44c;          /* projector light: ratings + focus only */
+  --midnight: #26336b;      /* atmosphere glow */
+  --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 10px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: dark; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ink); color: var(--text); font: 400 1rem/1.6 var(--font-body); min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration-color: var(--line); text-underline-offset: .2em; }
+a:hover { text-decoration-color: currentColor; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.02; margin: 0; letter-spacing: .005em; }
+h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); }
+:focus-visible { outline: 2px solid var(--lamp); outline-offset: 3px; border-radius: 4px; }
+.skip-link { position: absolute; left: -999px; top: .5rem; background: var(--lamp); color: #111; padding: .5rem .9rem; border-radius: 6px; z-index: 100; }
+.skip-link:focus { left: .5rem; }
+
+.container { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
+.container--narrow { max-width: 860px; margin-inline: 0; }
+.muted { color: var(--muted); }
+.section { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
+.section--first { padding-top: clamp(2rem, 4vw, 3rem); }
+.section__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.section__head a { color: var(--muted); font-size: .95rem; }
+.page-title { font-size: clamp(2.4rem, 6vw, 4rem); margin-bottom: .4rem; }
+.empty { color: var(--muted); padding-block: 2rem; }
+code { background: var(--surface-2); padding: .15em .4em; border-radius: 4px; font-size: .9em; }
+
+@keyframes fade-in { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; transition-duration: .001ms !important; }
+}

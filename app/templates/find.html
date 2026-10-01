@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section section--first">
+  <div class="container">
+    <h1 class="page-title">Your picks</h1>
+    {% if summary %}<ul class="chips chips--flush" aria-label="Your filters">{% for s in summary %}<li class="chip chip--static">{{ s }}</li>{% endfor %}</ul>{% endif %}
+    {% if res.relaxed %}<p class="note">Not many exact matches, so these are the closest ones. Loosen a filter below for a wider pick.</p>{% endif %}
+    {% if res.items %}
+      <p class="muted">{{ res.total }} {{ 'movie' if res.total == 1 else 'movies' }}, best match first</p>
+      <div class="grid-cards">{% for r in res.items %}{% with m=r.movie %}{% include "partials/movie_card.html" %}{% endwith %}{% endfor %}</div>
+      {% with pg=res %}{% include "partials/pagination.html" %}{% endwith %}
+    {% else %}
+      <p class="empty">Nothing matches that combination yet. Remove a mood or loosen a filter and try again.</p>
+    {% endif %}
+  </div>
+</section>
+<section class="section section--tight">
+  <div class="container">
+    <h2 class="finder-title">Change your answers</h2>
+    {% include "partials/filters.html" %}
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/recommendations.js') }}" defer></script>{% endblock %}

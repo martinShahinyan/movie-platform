@@ -1,0 +1,24 @@
+{# param: m (Movie) #}
+<a class="card" href="/movie/{{ m.slug }}">
+  <div class="card__poster">
+    {% if m.poster_path %}
+      <img src="{{ m.poster_path|img('w342') }}" srcset="{{ m.poster_path|srcset }}"
+           sizes="(max-width: 640px) 46vw, 200px" width="342" height="513"
+           alt="{{ m.title }} poster" loading="lazy" decoding="async"
+           onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='grid';">
+      <span class="card__fallback" style="display:none;">{{ m.title }}</span>
+    {% else %}
+      <span class="card__fallback">{{ m.title }}</span>
+    {% endif %}
+    {% if m.vote_average %}<span class="card__rating" aria-label="Rating {{ m.vote_average|rating }}">★ {{ m.vote_average|rating }}</span>{% endif %}
+  </div>
+  <div class="card__body">
+    <h3 class="card__title">{{ m.title }}</h3>
+    <p class="facts">
+      {% if m.year %}<span>{{ m.year }}</span>{% endif %}
+      {% if m.runtime %}<span>{{ m.runtime|runtime }}</span>{% endif %}
+    </p>
+    {% if m.genres %}<p class="card__genres facts">{% for g in m.genres[:3] %}<span>{{ g.name }}</span>{% endfor %}</p>{% endif %}
+    {% if m.moods %}<ul class="tags">{% for t in m.moods[:3] %}<li>{{ t.name }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+</a>

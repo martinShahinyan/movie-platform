@@ -1,0 +1,35 @@
+<div id="log-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-log-title">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 id="modal-log-title">Log {{ movie.title }}</h3>
+      <button type="button" class="modal__close" id="modal-log-close" aria-label="Close modal">&times;</button>
+    </div>
+    <form id="log-form" data-movie-id="{{ movie.id }}">
+      <div class="modal__body">
+        <div class="form-group">
+          <label for="log-rating">Rating (optional):</label>
+          <div class="rating-select" id="log-rating-select">
+            {% for v in range(1, 11) %}
+              <button type="button" class="rating-btn{% if user_rating == v %} is-active{% endif %}" data-value="{{ v }}">{{ v }}</button>
+            {% endfor %}
+          </div>
+          <input type="hidden" name="rating" id="log-rating" value="{{ user_rating or '' }}">
+        </div>
+
+        <div class="form-group">
+          <label for="log-date">Watched date:</label>
+          <input type="date" id="log-date" name="watched_at" class="form-control" value="">
+        </div>
+
+        <div class="form-group">
+          <label for="log-text">Log commentary:</label>
+          <textarea id="log-text" name="text" class="form-control" rows="4" maxlength="2000" placeholder="What did you think? (e.g. Watched this at 2 AM. The atmosphere was insane.)" required></textarea>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn--secondary" id="modal-log-cancel">Cancel</button>
+        <button type="submit" class="btn btn--primary" id="log-submit-btn">Save Log</button>
+      </div>
+    </form>
+  </div>
+</div>

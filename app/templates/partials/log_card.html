@@ -1,0 +1,23 @@
+<article class="log-card">
+  <div class="log-card__header">
+    <div class="log-card__meta">
+      <span class="log-card__author">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        Anonymous viewer
+      </span>
+      {% if log.rating %}
+        <span class="log-card__rating">★ {{ log.rating }}/10</span>
+      {% endif %}
+      <span class="log-card__date">{{ log.watched_at }}</span>
+    </div>
+    {% if show_movie and log.movie %}
+      <a class="log-card__movie-link" href="/movie/{{ log.movie.slug }}">
+        {% if log.movie.poster_path %}
+          <img class="log-card__thumb" src="{{ log.movie.poster_path|img('w92') }}" alt="{{ log.movie.title }}">
+        {% endif %}
+        <span>{{ log.movie.title }}</span>
+      </a>
+    {% endif %}
+  </div>
+  <p class="log-card__text">{{ log.text }}</p>
+</article>

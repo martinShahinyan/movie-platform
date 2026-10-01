@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block head %}
+  {% if pg.page > 1 %}<link rel="prev" href="{{ page_url(pg.page - 1) }}">{% endif %}
+  {% if pg.page < pg.pages %}<link rel="next" href="{{ page_url(pg.page + 1) }}">{% endif %}
+{% endblock %}
+{% block content %}
+<section class="section section--first">
+  <div class="container">
+    <h1 class="page-title">{{ h1 }}</h1>
+    {% if intro %}<div class="prose">{% for p in intro %}<p>{{ p }}</p>{% endfor %}</div>{% endif %}
+    {% if pg.items %}
+      <div class="grid-cards landing-grid">{% for r in pg.items %}{% with m=r.movie %}{% include "partials/movie_card.html" %}{% endwith %}{% endfor %}</div>
+      {% include "partials/pagination.html" %}
+    {% else %}
+      <p class="empty">No movies are tagged here yet. <a href="/movies">Browse all movies</a></p>
+    {% endif %}
+  </div>
+</section>
+
+{% if faq %}
+<section class="section section--tight">
+  <div class="container container--narrow">
+    <h2>Questions people ask</h2>
+    <div class="faq">{% for q, a in faq %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{% for group in related %}{% if group.links %}
+<section class="section section--tight">
+  <div class="container">
+    <h2 class="h2--small">{{ group.title }}</h2>
+    <ul class="chips chips--flush">{% for label, url in group.links %}<li><a class="chip" href="{{ url }}">{{ label }}</a></li>{% endfor %}</ul>
+  </div>
+</section>
+{% endif %}{% endfor %}
+{% endblock %}

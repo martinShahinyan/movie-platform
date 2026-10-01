@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ seo.title }}</title>
+  <meta name="description" content="{{ seo.description }}">
+  <meta name="robots" content="{{ seo.robots }}">
+  <link rel="canonical" href="{{ seo.canonical }}">
+  <meta property="og:site_name" content="{{ site_name }}">
+  <meta property="og:type" content="{{ seo.og_type }}">
+  <meta property="og:title" content="{{ seo.title }}">
+  <meta property="og:description" content="{{ seo.description }}">
+  <meta property="og:url" content="{{ seo.canonical }}">
+  {% if seo.image %}<meta property="og:image" content="{{ seo.image }}">{% endif %}
+  <meta name="twitter:card" content="{{ 'summary_large_image' if seo.image else 'summary' }}">
+  <meta name="twitter:title" content="{{ seo.title }}">
+  <meta name="twitter:description" content="{{ seo.description }}">
+  {% if seo.image %}<meta name="twitter:image" content="{{ seo.image }}">{% endif %}
+  <meta name="theme-color" content="#0c0d11">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Figtree:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/responsive.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% include "partials/navbar.html" %}
+  <main id="main">{% block content %}{% endblock %}</main>
+  {% include "partials/footer.html" %}
+  <script src="{{ url_for('static', path='js/search.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
