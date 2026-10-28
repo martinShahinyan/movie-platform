@@ -28,7 +28,7 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Ensure tables exist on startup (safely handled if already created by another worker)
+
     try:
         Base.metadata.create_all(bind=engine, checkfirst=True)
     except Exception as e:
