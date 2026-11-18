@@ -56,7 +56,7 @@ def main() -> None:
             ids.append(args.tmdb_id)
 
         with SessionLocal() as db:
-            seed_reference_data(db)  # genres/moods must exist before linking
+            seed_reference_data(db) 
             ok, failed = import_ids(tmdb, db, ids)
         print(f"Done: {ok} imported/updated, {failed} failed.")
     except TmdbError as exc:
