@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
-import app.models  # noqa: F401
+import app.models
 from app.database import Base, get_db
 from app.main import app
 from app.services import movie_service
