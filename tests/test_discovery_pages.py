@@ -23,7 +23,7 @@ def test_unknown_mood_and_genre_404(client, movies):
 
 
 def test_empty_mood_page_is_noindex(client, movies):
-    r = client.get("/mood/cozy")  # no fixture movie carries this tag
+    r = client.get("/mood/cozy")  
     assert r.status_code == 200 and 'content="noindex,follow"' in r.text
 
 
