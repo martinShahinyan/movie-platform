@@ -66,7 +66,7 @@ def test_find_page_from_form_with_blank_fields(client, movies):
     r = client.get("/find?mood=sad&mood=atmospheric&genre=&runtime=&decade=&rating=&language=")
     assert r.status_code == 200 and "Interstellar" in r.text
     assert 'content="noindex,follow"' in r.text
-    assert '<input type="checkbox" name="mood" value="sad" checked>' in r.text  # form stays filled
+    assert '<input type="checkbox" name="mood" value="sad" checked>' in r.text 
 
 
 def test_find_summary_and_relaxed_note(client, movies):
