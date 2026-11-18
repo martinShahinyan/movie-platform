@@ -290,7 +290,6 @@ def seed_starter_movies(db: Session) -> int:
     for item in STARTER_MOVIES:
         existing = db.scalar(select(Movie).where(Movie.tmdb_id == item["tmdb_id"]))
         if existing:
-            # Update poster_path and backdrop_path
             existing.poster_path = item["poster_path"]
             existing.backdrop_path = item["backdrop_path"]
         else:
@@ -314,7 +313,6 @@ def seed_starter_movies(db: Session) -> int:
             added += 1
     db.commit()
 
-    # Seed sample logs if no logs exist
     if db.scalar(select(Log.id)) is None:
         import uuid
         for log_item in SAMPLE_LOGS:
