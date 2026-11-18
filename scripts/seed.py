@@ -14,7 +14,6 @@ from app.seed_data import GENRES, MOODS
 
 log = logging.getLogger(__name__)
 
-# Pre-built popular movies data with 100% verified posters & backdrops
 STARTER_MOVIES = [
     {
         "tmdb_id": 157336,
