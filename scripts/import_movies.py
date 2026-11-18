@@ -1,7 +1,7 @@
 """Import movies from TMDB into PostgreSQL.
 
 Examples:
-  python -m scripts.import_movies --popular 5          # 5 pages (~100 movies)
+  python -m scripts.import_movies --popular 5 
   python -m scripts.import_movies --top-rated 5
   python -m scripts.import_movies --search "interstellar"
   python -m scripts.import_movies --tmdb-id 157336
@@ -18,7 +18,7 @@ log = logging.getLogger("import_movies")
 
 def import_ids(tmdb: TmdbService, db, ids: list[int]) -> tuple[int, int]:
     ok = failed = 0
-    for tmdb_id in dict.fromkeys(ids):  # de-duplicate, keep order
+    for tmdb_id in dict.fromkeys(ids): 
         try:
             tmdb.import_movie(db, tmdb_id)
             ok += 1
